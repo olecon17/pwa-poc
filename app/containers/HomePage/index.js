@@ -10,47 +10,35 @@
  */
 
 import React from 'react';
-import MessageList from '../../components/MessageList'
-import MessagesHeader from '../../components/MessagesHeader/index'
-import { fetchMessages } from '../../actions/index'
-import { connect } from 'react-redux'
-
+import { connect } from 'react-redux';
+import MessageList from '../../components/MessageList';
+import MessagesHeader from '../../components/MessagesHeader/index';
+import { fetchMessages } from '../../actions/index';
 
 /* eslint-disable react/prefer-stateless-function */
 
-const mapStateToProps = (state) => {
-  let messagesState = state.get('messages')
+const mapStateToProps = state => {
+  const messagesState = state.get('messages');
 
   return {
-    messages: messagesState
-  }
-}
+    messages: messagesState,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchMessages: () => dispatch(fetchMessages())
-})
+const mapDispatchToProps = dispatch => ({
+  fetchMessages: () => dispatch(fetchMessages()),
+});
 
-
-
-
-
-
-
-  const messageList = (props) => {
-    return (
-      <div className="container-fluid">
-          <div className="content">
-            <MessagesHeader onRefreshClick={props.fetchMessages}/>
-            <MessageList messages={props.messages}/>
-          </div>
-      </div>
-    )
-  }
-
-
-
+const messageList = props => (
+  <div className="container-fluid">
+    <div className="content">
+      <MessagesHeader onRefreshClick={props.fetchMessages} />
+      <MessageList messages={props.messages} />
+    </div>
+  </div>
+);
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(messageList)
+  mapDispatchToProps,
+)(messageList);

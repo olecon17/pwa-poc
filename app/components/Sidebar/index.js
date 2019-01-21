@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const sideDrawer = props => {
-  let sidebarClasses = props.sidebarOpen ? 'sidebar open' : 'sidebar'
+  const sidebarClasses = props.sidebarOpen ? 'sidebar open' : 'sidebar';
   return (
     <nav className={sidebarClasses}>
       <ul>
@@ -13,7 +13,7 @@ const sideDrawer = props => {
         </li>
       </ul>
     </nav>
-  )
-}
+  );
+};
 
 export default sideDrawer;

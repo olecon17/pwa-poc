@@ -17,7 +17,10 @@ import messages from './messages';
 export default class NotFound extends React.PureComponent {
   render() {
     return (
-      <img className="mx-auto d-block" src="https://66.media.tumblr.com/8d1bdbf68a0370c62310ead55bbf3fd9/tumblr_ntqxneRHQr1udik9co2_1280.jpg"></img>
+      <img
+        className="mx-auto d-block"
+        src="https://66.media.tumblr.com/8d1bdbf68a0370c62310ead55bbf3fd9/tumblr_ntqxneRHQr1udik9co2_1280.jpg"
+      />
     );
   }
 }

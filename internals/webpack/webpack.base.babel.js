@@ -4,7 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const workboxPlugin = require('workbox-webpack-plugin')
+const workboxPlugin = require('workbox-webpack-plugin');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -126,7 +126,7 @@ module.exports = options => ({
 
     new workboxPlugin.InjectManifest({
       swSrc: '/Users/coleary/Downloads/hackathon 3/hackathon-js/app/sw.js',
-    })
+    }),
   ]),
   resolve: {
     modules: ['node_modules', 'app'],

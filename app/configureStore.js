@@ -7,7 +7,7 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'connected-react-router/immutable';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
-import rootSaga from './store/sagas/sagas'
+import rootSaga from './store/sagas/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -40,7 +40,7 @@ export default function configureStore(initialState = {}, history) {
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
 
-  store.runSaga(rootSaga)
+  store.runSaga(rootSaga);
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {
