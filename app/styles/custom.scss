@@ -1,0 +1,175 @@
+//compile this using the following CLI command: sass custom.scss > custom.css
+
+//https://getbootstrap.com/docs/4.0/getting-started/theming/
+
+//Custom variables
+$cappex-orange: #ffb73c;
+$cappex-blue: #238184;
+
+//Custom variable overrides are defined ABOVE the import
+$theme-colors: (
+  "primary": $cappex-orange
+);
+
+//For right now, we'll include ALL of bootstrap, but if you have time try to reduce this to only the parts that are needed
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+//Defining custom CSS AFTER so it overrides
+body {
+  height: 100%;
+  background-color: rgba(0,0,0,0.1)
+}
+.content {
+  margin-top: 5rem;
+}
+.header {
+  background: #521751;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4rem;
+}
+
+.header__nav {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.header__logo a {
+  color: #238184;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+}
+.header_nav_items a {
+  color: white;
+  text-decoration: none
+}
+
+.header_nav_items a:hover,
+.header_nav_items a:active {
+  color: #238184;
+}
+
+.header_nav_items ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.header_nav_items li {
+  padding: 0 0.5rem;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.toggle-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 24px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.toggle-button:focus {
+  outline: none;
+}
+
+.toggle-button__line {
+  width: 30px;
+  height: 2px;
+  background: white;
+}
+
+.sidebar {
+  height: 100%;
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40%;
+  max-width: 300px;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar ul {
+  height: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sidebar li {
+  margin: 0.5rem 0;
+}
+
+.sidebar a {
+  color: #521751;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.sidebar a:hover,
+.sidebar a:active {
+  color: #ffb73c;
+}
+
+.backdrop {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  background: rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+.button_bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+@media(max-width: 768px) {
+  .header_nav_items{
+     display: none;
+  }
+}
+
+@media(min-width: 769px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+@media(min-width: 769px) {
+  .header_toggle_btn {
+    display: none;
+  }
+}
+
+@media(min-width: 769px) {
+  .header__logo {
+    margin-left: 0;
+  }
+}
+
+
