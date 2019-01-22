@@ -11,7 +11,6 @@
 
 import React from 'react';
 
-import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class NotFound extends React.PureComponent {

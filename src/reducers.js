@@ -5,7 +5,7 @@
 import { combineReducers } from 'redux-immutable';
 import { connectRouter } from 'connected-react-router/immutable';
 
-import history from 'utils/history';
+import history from './utils/history';
 import display from './reducers/display';
 import messages from './reducers/messages';
 

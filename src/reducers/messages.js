@@ -12,7 +12,6 @@ export default function(state = messages, action) {
         if (action.messages[message.id]) {
           messageState[index] = Object.assign({}, messageState[index], action.messages[message.id])
         }
-      }
       });
       return messageState;
     default:
