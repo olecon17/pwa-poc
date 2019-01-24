@@ -15,7 +15,7 @@ export default props => (
   <MessagesHeader>
     <h3 className="mb-1">College Messages</h3>
     <div className="spacer" />
-    <AddMessageButton />
+    <AddMessageButton onAddClick={props.onAddMessageClick} />
     <MessagesRefeshButton onRefreshClick={props.onRefreshClick} />
   </MessagesHeader>
 );

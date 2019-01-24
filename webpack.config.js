@@ -16,8 +16,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
+
+        loader: "babel-loader",
+
+        query: {
+          cacheDirectory: true,
+          presets: ['@babel/preset-react', '@babel/preset-env']
         }
       },
       {
@@ -33,8 +37,16 @@ module.exports = {
           },
           "css-loader"
         ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ]
       }
-
     ]
   },
   plugins: [
@@ -43,6 +55,6 @@ module.exports = {
       filename: "./index.html"
     }),
     new BundleAnalyzerPlugin(),
-    new MiniCssExtractPlugin('./src/styles/custom.css')
+    new MiniCssExtractPlugin()
   ]
 }

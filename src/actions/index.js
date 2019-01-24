@@ -10,6 +10,10 @@ export const fetchMessages = () => ({
   type: 'FETCH_MESSAGES',
 });
 
+export const postNewMessage = () => ({
+  type: 'ADD_MESSAGE',
+});
+
 export const setMessages = messages => ({
   type: 'SET_MESSAGES',
   messages,

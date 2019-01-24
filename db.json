@@ -34,7 +34,6 @@
       "about": "In non irure proident eu laborum do velit commodo qui enim pariatur deserunt. Proident eu Lorem et reprehenderit sunt. Dolore ea nostrud veniam deserunt magna nisi quis aliqua reprehenderit consectetur nostrud. Eu nulla occaecat nostrud est cillum adipisicing do dolore sint occaecat consectetur pariatur voluptate. Aute eiusmod nostrud sunt ipsum ullamco veniam id. Enim id incididunt cillum est in est."
     }
   ],
-
   "messages": [
     {
       "id": 0,
@@ -48,7 +47,6 @@
       "accepted": false,
       "rejected": false
     },
-
     {
       "id": 1,
       "toUser": "Conor",
@@ -60,9 +58,104 @@
       "open": true,
       "accepted": false,
       "rejected": false
+    },
+    {
+      "toUser": "Mitch",
+      "fromUser": "conor",
+      "campaign": "school",
+      "college": "Cornell College",
+      "subject": "The best school in the Corn League",
+      "text": "It's like being at an Ivy, but with corn instead.",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 2
+    },
+    {
+      "toUser": "Conor",
+      "fromUser": "zach",
+      "campaign": "camp1",
+      "college": "Generic Message",
+      "subject": "Learn some stuff at our school",
+      "text": "Buy now and save!",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 3
+    },
+    {
+      "toUser": "Mitch",
+      "fromUser": "conor",
+      "campaign": "school",
+      "college": "Cornell College",
+      "subject": "The best school in the Corn League",
+      "text": "It's like being at an Ivy, but with corn instead.",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 4
+    },
+    {
+      "toUser": "Mitch",
+      "fromUser": "conor",
+      "campaign": "school",
+      "college": "Cornell College",
+      "subject": "The best school in the Corn League",
+      "text": "It's like being at an Ivy, but with corn instead.",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 5
+    },
+    {
+      "toUser": "Mitch",
+      "fromUser": "conor",
+      "campaign": "school",
+      "college": "Cornell College",
+      "subject": "The best school in the Corn League",
+      "text": "It's like being at an Ivy, but with corn instead.",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 6
+    },
+    {
+      "toUser": "Mitch",
+      "fromUser": "conor",
+      "campaign": "school",
+      "college": "Cornell College",
+      "subject": "The best school in the Corn League",
+      "text": "It's like being at an Ivy, but with corn instead.",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 7
+    },
+    {
+      "toUser": "Conor",
+      "fromUser": "zach",
+      "campaign": "camp1",
+      "college": "Generic Message",
+      "subject": "Learn some stuff at our school",
+      "text": "Buy now and save!",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 8
+    },
+    {
+      "toUser": "Mitch",
+      "fromUser": "conor",
+      "campaign": "school",
+      "college": "Cornell College",
+      "subject": "The best school in the Corn League",
+      "text": "It's like being at an Ivy, but with corn instead.",
+      "open": false,
+      "accepted": false,
+      "rejected": false,
+      "id": 9
     }
   ],
-
   "todos": [
     {
       "id": 1,

@@ -28,8 +28,9 @@ import 'file-loader?name=.htaccess!./.htaccess';
 import configureStore from './configureStore';
 
 // Bootstrap
-import './styles/custom.css';
+import './styles/custom.scss';
 import 'bootstrap/dist/js/bootstrap.js';
+const path = require('path')
 
 // Create redux store with history
 const initialState = {};
@@ -49,15 +50,15 @@ const render = messages => {
 
 render();
 
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('./sw.js')
+      .register('/sw.js')
       .then(registration => {
         console.log('registered sw: ', registration);
       })
       .catch(regError => {
-        console.log('we done fucked up');
+        console.log('we  fucked up');
       });
   });
 }

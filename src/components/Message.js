@@ -8,8 +8,6 @@ const Card = styled.div.attrs({})`
 `;
 
 export default props => {
-  console.log(props.message.open);
-  const offerButtons = props.message.open ? <ButtonBar /> : null;
   const messageClasses = props.message.open ? 'message open' : 'message';
   return (
     <Card className={messageClasses} onClick={props.openOffer}>

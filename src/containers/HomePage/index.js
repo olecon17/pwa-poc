@@ -13,7 +13,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import MessageList from '../../components/MessageList';
 import MessagesHeader from '../../components/MessagesHeader/index';
-import { fetchMessages } from '../../actions/index';
+import { fetchMessages, postNewMessage } from '../../actions/index';
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -27,12 +27,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   fetchMessages: () => dispatch(fetchMessages()),
+  onAddMessageClick: () => dispatch(postNewMessage())
 });
 
 const messageList = props => (
   <div className="container-fluid">
     <div className="content">
-      <MessagesHeader onRefreshClick={props.fetchMessages} />
+      <MessagesHeader onRefreshClick={props.fetchMessages} onAddMessageClick={props.onAddMessageClick} />
       <MessageList messages={props.messages} />
     </div>
   </div>

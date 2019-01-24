@@ -8,11 +8,14 @@ export default function(state = messages, action) {
       return state;
     case 'SET_MESSAGES':
       const messageState = [...state];
-      messageState.forEach((message, index) => {
-        if (action.messages[message.id]) {
-          messageState[index] = Object.assign({}, messageState[index], action.messages[message.id])
+      action.messages.forEach(message => {
+        if (messageState[message.id]) { //update existing
+          messageState[message.id] = Object.assign({}, messageState[message.id], message)
+        } else { // add new
+          messageState[message.id] = Object.assign({}, message)
         }
-      });
+      })
+
       return messageState;
     default:
       return state;

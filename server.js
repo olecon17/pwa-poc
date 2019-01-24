@@ -1,14 +1,13 @@
-const express = require('express');
-const path = require('path');
-const port = process.env.PORT || 8080;
-const app = express();
+const jsonServer = require('json-server')
+const path = require('path')
+const server = jsonServer.create()
+const router = jsonServer.router(path.join(__dirname, 'db.json'))
+const middlewares = jsonServer.defaults()
 
-// the __dirname is the current directory from where the script is running
-app.use(express.static(__dirname));
-
-// send the user to index html page inspite of the url
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'index.html'));
-});
-
-app.listen(port);
+console.log(__dirname)
+console.log(path.join(__dirname, 'db.json'))
+server.use(middlewares)
+server.use('/api', router)  // Rewrite routes to appear after /api
+server.listen(8000, function () {
+    console.log('JSON Server is running')
+})
