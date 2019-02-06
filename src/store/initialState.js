@@ -40,10 +40,8 @@ export const colleges = [
 
 export const display = {
   sidebarOpen: false,
-  loading: false
+  loading: false,
 };
 
 export const messages = [];
-export const pendingActions = []
-
-
+export const pendingActions = [];

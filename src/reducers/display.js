@@ -7,9 +7,9 @@ export default function(state = display, action) {
     case 'CLOSE_SIDEBAR':
       return Object.assign({}, state, { sidebarOpen: false });
     case 'START_LOADING':
-      return Object.assign({}, state, { loading: true })
+      return Object.assign({}, state, { loading: true });
     case 'STOP_LOADING':
-      return Object.assign({}, state, { loading: false })
+      return Object.assign({}, state, { loading: false });
     default:
       return state;
   }

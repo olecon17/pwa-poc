@@ -17,7 +17,7 @@ export default function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     display,
     messages,
-    pendingActions
+    pendingActions,
   });
 
   // Wrap the root reducer and return a new root reducer with router state

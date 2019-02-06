@@ -1,11 +1,10 @@
-import localforage from 'localforage'
+import localforage from 'localforage';
 import { resolve } from 'path';
 
 export default class CacheManager {
-  writeData = (key, data) => localforage.setItem(key, data)
+  writeData = (key, data) => localforage.setItem(key, data);
 
-  readData = key => localforage.getItem(key)
+  readData = key => localforage.getItem(key);
 
-  clearData = () => localforage.clear()
-
+  clearData = () => localforage.clear();
 }

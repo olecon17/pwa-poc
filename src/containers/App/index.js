@@ -12,7 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from './HomePage/index';
 import NotFoundPage from '../NotFoundPage/index';
 import NavigationContainer from './NavigationContainer/index';
-import '../../styles/custom.scss'
+import '../../styles/custom.scss';
 
 export class App extends React.Component {
   constructor(props) {

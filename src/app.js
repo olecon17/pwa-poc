@@ -29,7 +29,7 @@ import configureStore from './configureStore';
 
 // Bootstrap
 import './styles/custom.scss';
-import '@fortawesome/fontawesome-free/scss/fontawesome.scss'
+import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
 import 'bootstrap/dist/js/bootstrap.js';
 
 // Create redux store with history
@@ -50,9 +50,8 @@ const render = messages => {
 
 render();
 
-
 function urlB64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding)
     .replace(/\-/g, '+')
     .replace(/_/g, '/');
@@ -67,35 +66,35 @@ function urlB64ToUint8Array(base64String) {
 }
 
 function sendSubscriptionToServer(subscription) {
-
-  console.log(subscription)
+  console.log(subscription);
   return fetch('https://cappwa-database.herokuapp.com/subscribe', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(subscription)
+    body: JSON.stringify(subscription),
   })
-  .then(function(response) {
-    if (!response.ok) {
-      throw new Error('Bad status code from server.');
-    }
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Bad status code from server.');
+      }
 
-    return response.json();
-  })
-  .then(function(responseData) {
-    if (!(responseData.data && responseData.data.success)) {
-      throw new Error('Bad response from server.');
-    }
-  });
+      return response.json();
+    })
+    .then(responseData => {
+      if (!(responseData.data && responseData.data.success)) {
+        throw new Error('Bad response from server.');
+      }
+    });
 }
 
-function isOnline () {
-
-  if (navigator.onLine){
-    console.log('You are currently online!')
+function isOnline() {
+  if (navigator.onLine) {
+    console.log('You are currently online!');
   } else {
-    console.log('You are currently offline. Any requests made will be queued and synced as soon as you are connected again.')
+    console.log(
+      'You are currently offline. Any requests made will be queued and synced as soon as you are connected again.',
+    );
   }
 }
 
@@ -103,43 +102,43 @@ window.addEventListener('online', isOnline);
 window.addEventListener('offline', isOnline);
 isOnline();
 
-
 const subscribeOptions = {
   userVisibleOnly: true,
-  applicationServerKey: urlB64ToUint8Array('BJaAknbSmqQYQTm2hhC0_jTnO7JiWBwWLARzeI_R3-M3ahwsUJRzU4cAW2UhSQFDtqZ-asPVk76QWFiDERzQZQs')
+  applicationServerKey: urlB64ToUint8Array(
+    'BJaAknbSmqQYQTm2hhC0_jTnO7JiWBwWLARzeI_R3-M3ahwsUJRzU4cAW2UhSQFDtqZ-asPVk76QWFiDERzQZQs',
+  ),
 };
 
 if ('serviceWorker' in navigator) {
-  console.log('sw in nav')
+  console.log('sw in nav');
   window.addEventListener('load', () => {
-    console.log('did load event')
-    navigator.serviceWorker.register('./sw.js')
+    console.log('did load event');
+    navigator.serviceWorker
+      .register('./sw.js')
       .then(registration => {
         console.log('registered service worker: ', registration);
         document.getElementById('add-msg').addEventListener('click', () => {
           registration.sync.register('msg-post').then(() => {
-            console.log('registered sync')
-          })
-        })
-        return registration.pushManager.subscribe(subscribeOptions)
+            console.log('registered sync');
+          });
+        });
+        return registration.pushManager.subscribe(subscribeOptions);
       })
       .then(subscription => {
-        sendSubscriptionToServer(subscription)
+        sendSubscriptionToServer(subscription);
       })
       .catch(regError => {
         console.warn(regError);
       });
-  })
+  });
 }
-
 
 Notification.requestPermission(status => {
   console.log('Notification permission status:', status);
   if (status == 'granted') {
     // subscribeUser()
-    console.log('permission granted')
+    console.log('permission granted');
   } else {
-    console.log('notifcation permission not granted... wtf')
+    console.log('notifcation permission not granted... wtf');
   }
 });
-

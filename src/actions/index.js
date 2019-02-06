@@ -15,28 +15,28 @@ export const postNewMessage = () => ({
 });
 
 export const addPendingAction = () => ({
-  type: 'ADD_PENDING_ACTION'
-})
+  type: 'ADD_PENDING_ACTION',
+});
 
 export const setMessages = messages => ({
   type: 'SET_MESSAGES',
   messages,
 });
 
-export const acceptOffer = (msg) => ({
+export const acceptOffer = msg => ({
   type: 'ACCEPT_OFFER',
-  msg
+  msg,
 });
 
-export const declineOffer = (msg) => ({
+export const declineOffer = msg => ({
   type: 'DECLINE_OFFER',
-  msg
+  msg,
 });
 
 export const startLoading = () => ({
-  type: 'START_LOADING'
-})
+  type: 'START_LOADING',
+});
 
 export const stopLoading = () => ({
-  type: 'STOP_LOADING'
-})
+  type: 'STOP_LOADING',
+});

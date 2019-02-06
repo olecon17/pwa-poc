@@ -1,99 +1,94 @@
 import { put, takeLatest, call } from 'redux-saga/effects';
 
-
-
-const fetchMessagesFromApi = () => {
-
-  return fetch('https://cappwa-database.herokuapp.com/api/messages')
-    .then(res =>  {
+const fetchMessagesFromApi = () =>
+  fetch('https://cappwa-database.herokuapp.com/api/messages').then(
+    res => {
       if (!res.ok) {
-        console.log('bad code')
-        return false
+        console.log('bad code');
+        return false;
       }
-      return res.json()
+      return res.json();
     },
     error => {
-      console.log(' in err ')
-      return false
-    })
-}
-
+      console.log(' in err ');
+      return false;
+    },
+  );
 
 function* onFetchQuestions() {
+  yield put({ type: 'START_LOADING' });
 
-  yield put({ type: 'START_LOADING' })
+  const messages = yield call(fetchMessagesFromApi);
 
-    const messages = yield(call(fetchMessagesFromApi))
-
-    if (messages) {
-      yield put({ type: 'SET_MESSAGES', messages });
-    } else {
-      try {
-
-
-      const cacheMessages =  yield getMessagesFromCache()
-      yield put({ type: 'SET_MESSAGES', messages: cacheMessages})
-      } catch (error) {
-        console.log('could not get from cache')
-      }
-
+  if (messages) {
+    yield put({ type: 'SET_MESSAGES', messages });
+  } else {
+    try {
+      const cacheMessages = yield getMessagesFromCache();
+      yield put({ type: 'SET_MESSAGES', messages: cacheMessages });
+    } catch (error) {
+      console.log('could not get from cache');
     }
-  yield put({ type: 'STOP_LOADING' })
+  }
+  yield put({ type: 'STOP_LOADING' });
 }
-
-
-
-
 
 const putModifiedOffer = (url, modifiedMsg) => {
-  console.log('postmod')
+  console.log('postmod');
   return fetch(url, {
-    method: "PUT", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, cors, *same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
+    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, cors, *same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    redirect: "follow", // manual, *follow, error
-    referrer: "no-referrer", // no-referrer, *client
+    redirect: 'follow', // manual, *follow, error
+    referrer: 'no-referrer', // no-referrer, *client
     body: JSON.stringify(modifiedMsg), // body data type must match "Content-Type" header
-  })
-}
+  });
+};
 
 function* onAcceptOffer(action) {
   if (!action.msg.accepted) {
-    yield put({ type: 'MARK_ACCEPTED', msg: action.msg})
+    yield put({ type: 'MARK_ACCEPTED', msg: action.msg });
   }
-  let modifiedMsg = Object.assign({}, action.msg, {accepted: true})
-  let putUrl = 'https://cappwa-database.herokuapp.com/api/messages/' + modifiedMsg.id
+  const modifiedMsg = Object.assign({}, action.msg, { accepted: true });
+  const putUrl = `https://cappwa-database.herokuapp.com/api/messages/${
+    modifiedMsg.id
+  }`;
 
   try {
-    yield(call(putModifiedOffer, putUrl, modifiedMsg))
-    yield put({type: 'PUT_SUCCESS'})
-  } catch(err) {
-    yield put({type: 'ADD_PENDING_ACTION', pending: { type: 'ACCEPT_OFFER', msg: modifiedMsg}})
-    console.log(err)
+    yield call(putModifiedOffer, putUrl, modifiedMsg);
+    yield put({ type: 'PUT_SUCCESS' });
+  } catch (err) {
+    yield put({
+      type: 'ADD_PENDING_ACTION',
+      pending: { type: 'ACCEPT_OFFER', msg: modifiedMsg },
+    });
+    console.log(err);
   }
-
 }
 
 function* onDeclineOffer(action) {
   if (!action.msg.rejected) {
-    yield put({ type: 'MARK_DECLINED', msg: action.msg})
+    yield put({ type: 'MARK_DECLINED', msg: action.msg });
   }
-  let modifiedMsg = Object.assign({}, action.msg, {rejected: true})
-  let putUrl = 'https://cappwa-database.herokuapp.com/api/messages/' + modifiedMsg.id
+  const modifiedMsg = Object.assign({}, action.msg, { rejected: true });
+  const putUrl = `https://cappwa-database.herokuapp.com/api/messages/${
+    modifiedMsg.id
+  }`;
 
   try {
-    yield(call(putModifiedOffer, putUrl, modifiedMsg))
-    yield put({type: 'PUT_SUCCESS'})
-
-  } catch(err) {
-    yield put({type: 'ADD_PENDING_ACTION', pending: { type: 'DECLINE_OFFER', msg: modifiedMsg}})
-    console.log(err)
+    yield call(putModifiedOffer, putUrl, modifiedMsg);
+    yield put({ type: 'PUT_SUCCESS' });
+  } catch (err) {
+    yield put({
+      type: 'ADD_PENDING_ACTION',
+      pending: { type: 'DECLINE_OFFER', msg: modifiedMsg },
+    });
+    console.log(err);
   }
-
 }
 
 // retry stuff
@@ -116,8 +111,6 @@ function* onDeclineOffer(action) {
 //     }
 // }
 
-
-
 // function* onRetryNext() {
 //   let pendings = yield select(getPendingActions)
 //   if (pendings.length > 0) {
@@ -127,7 +120,6 @@ function* onDeclineOffer(action) {
 //     yield(put({ type: 'RETRY_EMPTY' }))
 //   }
 // }
-
 
 // function* retryRequest(action) {
 //   console.log('in retry method')
@@ -141,20 +133,14 @@ function* onDeclineOffer(action) {
 //   yield(put({ type: 'SET_PENDING', pending: currentPendings.length > 1 ? currentPendings.splice(0, 1) : [] }))
 // }
 
-
-
-
-
-
 function* rootSaga() {
   yield takeLatest('FETCH_MESSAGES', onFetchQuestions);
   // yield takeLatest('ADD_MESSAGE', onPostMessage);
-  yield takeLatest('ACCEPT_OFFER', onAcceptOffer)
-  yield takeLatest('DECLINE_OFFER', onDeclineOffer)
+  yield takeLatest('ACCEPT_OFFER', onAcceptOffer);
+  yield takeLatest('DECLINE_OFFER', onDeclineOffer);
   // yield takeLatest('ONLINE', onConnectionRestored)
   // yield takeLatest('RETRY_NEXT', onRetryNext)
   // yield takeLatest('RETRY_DONE', onRetryDone)
-
 }
 
-export default rootSaga
+export default rootSaga;
