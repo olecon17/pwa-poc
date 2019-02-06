@@ -9,9 +9,9 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import HomePage from '../HomePage/Loadable';
-import NotFoundPage from '../NotFoundPage/Loadable';
-import NavigationContainer from '../NavigationContainer/index';
+import HomePage from './HomePage/index';
+import NotFoundPage from '../NotFoundPage/index';
+import NavigationContainer from './NavigationContainer/index';
 import '../../styles/custom.scss'
 
 export class App extends React.Component {

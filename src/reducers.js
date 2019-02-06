@@ -8,6 +8,7 @@ import { connectRouter } from 'connected-react-router/immutable';
 import history from './utils/history';
 import display from './reducers/display';
 import messages from './reducers/messages';
+import pendingActions from './reducers/pendingActions';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -16,6 +17,7 @@ export default function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     display,
     messages,
+    pendingActions
   });
 
   // Wrap the root reducer and return a new root reducer with router state

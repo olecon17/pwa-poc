@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from '../../components/Header/index';
-import Sidebar from '../../components/Sidebar/index';
-import Backdrop from '../../components/Backdrop/index';
-import { openSidebar, closeSidebar } from '../../actions/index';
+import Header from '../Header/index';
+import Sidebar from '../Sidebar/index';
+import Backdrop from '../Backdrop/index';
+import { openSidebar, closeSidebar } from '../../../actions/index';
 
 const mapStateToProps = state => {
   const displayState = state.get('display');

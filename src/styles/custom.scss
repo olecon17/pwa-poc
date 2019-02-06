@@ -11,9 +11,13 @@ $theme-colors: (
   "primary": $cappex-orange
 );
 
+
+
 //For right now, we'll include ALL of bootstrap, but if you have time try to reduce this to only the parts that are needed
 @import "../../node_modules/bootstrap/scss/bootstrap";
-
+$fa-font-path:"/webfonts";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
 //Defining custom CSS AFTER so it overrides
 body {
   height: 100%;
@@ -152,6 +156,15 @@ body {
 
 .message_button {
   z-index: 100;
+}
+
+.spinnerWrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10%;
 }
 
 @media(max-width: 768px) {

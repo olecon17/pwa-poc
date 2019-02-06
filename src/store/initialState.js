@@ -40,33 +40,10 @@ export const colleges = [
 
 export const display = {
   sidebarOpen: false,
+  loading: false
 };
 
-export const messages = [
-  {
-    id: 0,
-    toUser: 'Conor',
-    fromUser: 'zach',
-    campaign: 'fullSail',
-    college: 'Full Sail University',
-    subject: 'Learn some stuff with Full Sail University',
-    text:
-      'For real, this is probably not the best idea. They will call you a lot.',
-    open: true,
-    accepted: false,
-    rejected: false,
-  },
+export const messages = [];
+export const pendingActions = []
 
-  {
-    id: 1,
-    toUser: 'Conor',
-    fromUser: 'conor',
-    campaign: 'trumpUniv',
-    college: 'Trump University',
-    subject: 'I have the best Univeristy',
-    text: "It's gonna be bigly.",
-    open: true,
-    accepted: false,
-    rejected: false,
-  },
-];
+

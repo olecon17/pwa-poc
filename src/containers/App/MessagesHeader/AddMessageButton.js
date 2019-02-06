@@ -5,6 +5,7 @@ export default props => (
     type="button"
     onClick={props.onAddClick}
     className="msg_refesh_btn btn btn-info mb-1 mr-2"
+    id="add-msg"
   >
     <i className="fas fa-plus-square" />
   </button>

@@ -1,15 +1,20 @@
 import React from 'react';
 
-const ButtonBar = props => (
+const ButtonBar = props => {
+
+  let acceptedClassNames = props.accepted ? 'btn btn-outline-success col-1 message_button' : 'btn btn-success col-1 message_button'
+  let rejectedClassNames = props.rejected ? 'btn btn-outline-danger col-1 message_button' : 'btn btn-danger col-1 message_button'
+  return (
   <div className="button_bar justify-content-around no-gutters">
-    <button className="btn btn-success col-1 message_button">
-      <i className="far fa-check-circle" />
+    <p>{this}</p>
+    <button className={acceptedClassNames} onClick={props.acceptClick.bind(this, props.message)}>
+      <i className="fas fa-check-circle" />
     </button>
     <div className="spacer" />
-    <button className="btn btn-danger col-1 message_button">
+    <button className={rejectedClassNames} onClick={props.declineClick.bind(this, props.message)}>
       <i className="fas fa-ban" />
     </button>
-  </div>
-);
+  </div>)
+  };
 
 export default ButtonBar;

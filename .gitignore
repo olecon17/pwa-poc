@@ -3,8 +3,16 @@ coverage
 build
 node_modules
 stats.json
+dist
+certs
 
 # Cruft
 .DS_Store
 npm-debug.log
 .idea
+.pem
+.cert
+.ext
+.crt
+.conf
+.pfx
