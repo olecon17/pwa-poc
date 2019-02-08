@@ -1,7 +1,8 @@
-importScripts(
-  'https://storage.googleapis.com/workbox-cdn/releases/3.6.1/workbox-sw.js',
-);
+// importScripts(
+//   'https://storage.googleapis.com/workbox-cdn/releases/3.6.1/workbox-sw.js',
+// );
 
+console.log('afger import')
 self.addEventListener('install', event => {
   console.log('service worker installing...');
 });
@@ -9,6 +10,16 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   console.log('service worker activated');
 });
+
+// self.addEventListener('notificationclick', function(event) {
+//   console.log('[Service Worker] Notification click Received.');
+
+//   event.notification.close();
+
+//   event.waitUntil(
+//     self.clients.openWindow('https://192.168.208.248:8081')
+//   );
+// });
 
 // self.addEventListener('fetch', event => {
 //   const url = new URL(event.request.url)
@@ -30,44 +41,44 @@ self.addEventListener('sync', event => {
   }
 });
 
-if (workbox) {
-  console.log(`Yay! Workbox is loaded 🎉`);
+// if (workbox) {
+//   console.log(`Yay! Workbox is loaded 🎉`);
 
-  workbox.setConfig({
-    debug: true,
-  });
-  workbox.skipWaiting();
-  workbox.clientsClaim();
+//   workbox.setConfig({
+//     debug: true,
+//   });
+//   workbox.skipWaiting();
+//   workbox.clientsClaim();
 
-  workbox.precaching.precacheAndRoute(self.__precacheManifest);
+//   workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-  workbox.routing.registerRoute(
-    /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-    workbox.strategies.cacheFirst({
-      cacheName: 'fonts',
-      plugins: [
-        new workbox.expiration.Plugin({
-          maxEntries: 50,
-        }),
-      ],
-    }),
-  );
-  workbox.routing.registerRoute(
-    new RegExp('https://cappwa-database.herokuapp.com/api/messages'),
-    workbox.strategies.networkFirst({
-      cacheName: 'message-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({
-          statuses: [0, 200],
-        }),
-      ],
-    }),
-  );
+//   workbox.routing.registerRoute(
+//     /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+//     workbox.strategies.cacheFirst({
+//       cacheName: 'fonts',
+//       plugins: [
+//         new workbox.expiration.Plugin({
+//           maxEntries: 50,
+//         }),
+//       ],
+//     }),
+//   );
+//   workbox.routing.registerRoute(
+//     new RegExp('https://cappwa-database.herokuapp.com/api/messages'),
+//     workbox.strategies.networkFirst({
+//       cacheName: 'message-cache',
+//       plugins: [
+//         new workbox.cacheableResponse.Plugin({
+//           statuses: [0, 200],
+//         }),
+//       ],
+//     }),
+//   );
 
-  console.log('after reg fonts');
-} else {
-  console.log(`Boo! Workbox didn't load 😬`);
-}
+//   console.log('after reg fonts');
+// } else {
+//   console.log(`Boo! Workbox didn't load 😬`);
+// }
 
 const extraMessages = [
   {
@@ -126,4 +137,4 @@ function postNewMessage() {
     .catch(err => console.log(err));
 }
 
-// as
+

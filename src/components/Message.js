@@ -11,7 +11,7 @@ export default props => {
   const messageClasses = props.message.open ? 'message open' : 'message';
   return (
     <CardDiv className={messageClasses}>
-      <h2>{props.message.subject}</h2>
+      <h2>{props.message.id}. {props.message.subject}</h2>
       <h4>From: {props.message.college}</h4>
       <p>{props.message.text}</p>
       <ButtonBar

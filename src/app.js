@@ -50,6 +50,7 @@ const render = messages => {
 
 render();
 
+
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding)
@@ -102,43 +103,85 @@ window.addEventListener('online', isOnline);
 window.addEventListener('offline', isOnline);
 isOnline();
 
-const subscribeOptions = {
-  userVisibleOnly: true,
-  applicationServerKey: urlB64ToUint8Array(
-    'BJaAknbSmqQYQTm2hhC0_jTnO7JiWBwWLARzeI_R3-M3ahwsUJRzU4cAW2UhSQFDtqZ-asPVk76QWFiDERzQZQs',
-  ),
-};
+const checkSupport = () => {
+  if (!('serviceWorker' in navigator)) {
+    throw new Error('No Service Worker support!')
+  }
+  if (!('PushManager' in window)) {
+    throw new Error('No Push API Support!')
+  }
 
-if ('serviceWorker' in navigator) {
-  console.log('sw in nav');
-  window.addEventListener('load', () => {
-    console.log('did load event');
-    navigator.serviceWorker
-      .register('./sw.js')
-      .then(registration => {
-        console.log('registered service worker: ', registration);
-        document.getElementById('add-msg').addEventListener('click', () => {
-          registration.sync.register('msg-post').then(() => {
-            console.log('registered sync');
-          });
-        });
-        return registration.pushManager.subscribe(subscribeOptions);
-      })
-      .then(subscription => {
-        sendSubscriptionToServer(subscription);
-      })
-      .catch(regError => {
-        console.warn(regError);
-      });
-  });
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
+    console.log('stuff suppoerted and ready to rock')
+  }
 }
 
-Notification.requestPermission(status => {
-  console.log('Notification permission status:', status);
-  if (status == 'granted') {
-    // subscribeUser()
-    console.log('permission granted');
+const  registerServiceWorker = async () => {
+  console.log('registeeeeeering sw')
+  const swRegistration = await navigator.serviceWorker.register('sw.js')
+    .then( registration => {
+      console.log(registration)
+      console.log('registered sw')
+      return registration
+    })
+    .catch( err => {
+      console.log('Error: ' + err)
+    })
+
+  return swRegistration
+}
+
+const subscribeNotifications = async (registration) => {
+  console.log('subscribing...')
+  const subscribeOptions = {
+    userVisibleOnly: true,
+    applicationServerKey: urlB64ToUint8Array(
+      'BJaAknbSmqQYQTm2hhC0_jTnO7JiWBwWLARzeI_R3-M3ahwsUJRzU4cAW2UhSQFDtqZ-asPVk76QWFiDERzQZQs',
+    ),
+  };
+
+  const pushSubscription = await registration.pushManager.subscribe(subscribeOptions)
+
+  console.log('subscribed!')
+  if (pushSubscription) {
+    console.log('sending to server...')
+    sendSubscriptionToServer(pushSubscription)
+  }
+}
+
+
+const serviceWorkerMain = async () => {
+  checkSupport()
+  const swRegistration = await registerServiceWorker()
+  const notificationPermission = await requestNotificationPermission()
+  if (swRegistration && notificationPermission === 'granted') {
+    console.log('worker installed & permission ok')
+    const notifcationSubscription = await subscribeNotifications(swRegistration)
+  }
+  showLocalNotification('Conor', 'is the best', swRegistration)
+}
+
+const showLocalNotification = (title, body, swRegistration) => {
+  const options = {
+      body,
+      // here you can add more properties like icon, image, vibrate, etc.
+  };
+  swRegistration.showNotification(title, options);
+}
+
+
+const requestNotificationPermission = async () => {
+  const permission = await window.Notification.requestPermission();
+  if (permission !== 'granted') {
+      throw new Error('Permission not granted for Notification');
   } else {
     console.log('notifcation permission not granted... wtf');
   }
-});
+}
+
+window.addEventListener('load', () => {
+  console.log('load event')
+  serviceWorkerMain();
+})
+
+
