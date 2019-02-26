@@ -66,7 +66,7 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
-function sendSubscriptionToServer(subscription) {
+async function sendSubscriptionToServer(subscription) {
   console.log(subscription);
   return fetch('https://cappwa-database.herokuapp.com/subscribe', {
     method: 'POST',
@@ -105,20 +105,20 @@ isOnline();
 
 const checkSupport = () => {
   if (!('serviceWorker' in navigator)) {
-    throw new Error('No Service Worker support!')
+    console.log('No Service Worker support!')
   }
   if (!('PushManager' in window)) {
-    throw new Error('No Push API Support!')
+    console.log('No Push API Support!')
   }
 
   if ('serviceWorker' in navigator && 'PushManager' in window) {
-    console.log('stuff suppoerted and ready to rock')
+    console.log('SW and Push supported, ready to rock')
   }
 }
 
 const  registerServiceWorker = async () => {
-  console.log('registeeeeeering sw')
-  const swRegistration = await navigator.serviceWorker.register('sw.js')
+  console.log('registering sw')
+  const registration = await navigator.serviceWorker.register('sw.js')
     .then( registration => {
       console.log(registration)
       console.log('registered sw')
@@ -128,11 +128,11 @@ const  registerServiceWorker = async () => {
       console.log('Error: ' + err)
     })
 
-  return swRegistration
+  return registration
 }
 
 const subscribeNotifications = async (registration) => {
-  console.log('subscribing...')
+  console.log('subscribing to notifications...')
   const subscribeOptions = {
     userVisibleOnly: true,
     applicationServerKey: urlB64ToUint8Array(
@@ -144,9 +144,12 @@ const subscribeNotifications = async (registration) => {
 
   console.log('subscribed!')
   if (pushSubscription) {
-    console.log('sending to server...')
-    sendSubscriptionToServer(pushSubscription)
+    console.log('sending subscription to server...')
+    const serverSubscription = await sendSubscriptionToServer(pushSubscription)
+    console.log('subscribed on server ' + serverSubscription)
   }
+
+  return pushSubscription
 }
 
 
@@ -154,11 +157,29 @@ const serviceWorkerMain = async () => {
   checkSupport()
   const swRegistration = await registerServiceWorker()
   const notificationPermission = await requestNotificationPermission()
-  if (swRegistration && notificationPermission === 'granted') {
+  let iosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  console.log('ios: ' + iosDevice)
+  if (iosDevice) {
+    document.getElementById('add-msg').addEventListener('click', () => {
+      navigator.serviceWorker.controller.postMessage('add-msg')
+    })
+  } else if (!iosDevice && swRegistration && notificationPermission === 'granted') {
     console.log('worker installed & permission ok')
     const notifcationSubscription = await subscribeNotifications(swRegistration)
+    console.log('notification sub: ' + notifcationSubscription)
+    showLocalNotification('Conor', 'is the best', swRegistration)
   }
-  showLocalNotification('Conor', 'is the best', swRegistration)
+
+
+  if (!iosDevice) {
+    navigator.serviceWorker.ready.then(swRegistration => {
+      document.getElementById('add-msg').addEventListener('click', () => {
+        swRegistration.sync.register('msg-post').then(() => {
+          console.log('POST sync registed')
+        })
+      })
+    })
+  }
 }
 
 const showLocalNotification = (title, body, swRegistration) => {
@@ -173,10 +194,12 @@ const showLocalNotification = (title, body, swRegistration) => {
 const requestNotificationPermission = async () => {
   const permission = await window.Notification.requestPermission();
   if (permission !== 'granted') {
-      throw new Error('Permission not granted for Notification');
+      console.log('Permission not granted for Notification');
   } else {
-    console.log('notifcation permission not granted... wtf');
+    console.log('notifcation permission granted');
   }
+
+  return permission
 }
 
 window.addEventListener('load', () => {

@@ -1,4 +1,26 @@
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, take, select } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+
+
+
+const makeConnectivityChannel = () =>
+  eventChannel(emitter => {
+    // Expose online status to watcher
+    const online = () => emitter(true)
+    const offline = () => emitter(false)
+
+    window.addEventListener('online', online)
+    window.addEventListener('offline', offline)
+
+    // Unsubscribe
+    return () => {
+      window.removeEventListener('online', online)
+      window.removeEventListener('offline', offline)
+    }
+  })
+
+const connectivityChannel = makeConnectivityChannel()
+
 
 const fetchMessagesFromApi = () =>
   fetch('https://cappwa-database.herokuapp.com/api/messages').then(
@@ -93,54 +115,63 @@ function* onDeclineOffer(action) {
 
 // retry stuff
 
-// const getPendingActions = (state) => state.get('pendingActions')
-// function* emptyPendingStore() {
-//   yield(put({type: 'SET_PENDING', pending: []}))
-// }
+const getPendingActions = (state) => state.get('pendingActions')
 
-// function* onConnectionRestored(action) {
-//   let pendings = yield select(getPendingActions)
-//   if (pendings.length > 0) {
-//     yield put({ type: 'RETRY_NEXT' })
-//   } else {
-//     yield emptyPendingStore()
-//     console.log('set store pendings empty')
-//     let cachedPendings = yield getPendingsFromCache()
-//     yield put({ type: 'SET_PENDING', pending: cachedPendings })
-//     yield put({ type: 'RETRY_NEXT' })
-//     }
-// }
+function* onConnectionRestored(action) {
+  let pendings = yield select(getPendingActions)
+  if (pendings.length > 0) {
+    yield put({ type: 'RETRY_NEXT' })
+  } else yield put({ type: 'RETRY_EMPTY'})
+}
 
-// function* onRetryNext() {
-//   let pendings = yield select(getPendingActions)
-//   if (pendings.length > 0) {
-//     console.log('got pendings from store')
-//     yield retryRequest(pendings[0])
-//   } else  {
-//     yield(put({ type: 'RETRY_EMPTY' }))
-//   }
-// }
+function* onRetryNext() {
+  let pendings = yield select(getPendingActions)
+  console.log('# pendings: ' + pendings.length)
 
-// function* retryRequest(action) {
-//   console.log('in retry method')
-//   yield put({type: action.type, msg: action.msg})
-//   yield put({type: 'RETRY_DONE', msg: action.msg})
+  if (pendings.length > 0) {
+    console.log('got pendings from store')
+    console.log(pendings[0])
+    yield retryRequest(pendings[0])
+  } else  {
+    console.log('done w retires')
+    yield(put({ type: 'RETRY_EMPTY' }))
+  }
+}
 
-// }
+function* retryRequest(action) {
+  console.group('retryRequest')
+  console.log(action)
+  console.groupEnd('retryRequest')
+  yield put({type: action.type, msg: action.msg})
+  yield put({type: 'RETRY_DONE', msg: action.msg})
 
-// function* onRetryDone(action) {
-//   let currentPendings = yield( select(getPendingActions))
-//   yield(put({ type: 'SET_PENDING', pending: currentPendings.length > 1 ? currentPendings.splice(0, 1) : [] }))
-// }
+}
+
+function* onRetryDone(action) {
+  let currentPendings = yield( select(getPendingActions))
+  console.group('retryDone')
+  console.log('pendings')
+  console.log(currentPendings)
+  console.log('after slice: ')
+  console.log(currentPendings.slice(1))
+  console.groupEnd('retryDone')
+  yield(put({ type: 'SET_PENDING', pending: currentPendings.length > 1 ? currentPendings.slice(1) : [] }))
+  yield(put({ type: 'RETRY_NEXT' }))
+}
 
 function* rootSaga() {
   yield takeLatest('FETCH_MESSAGES', onFetchQuestions);
   // yield takeLatest('ADD_MESSAGE', onPostMessage);
   yield takeLatest('ACCEPT_OFFER', onAcceptOffer);
   yield takeLatest('DECLINE_OFFER', onDeclineOffer);
-  // yield takeLatest('ONLINE', onConnectionRestored)
-  // yield takeLatest('RETRY_NEXT', onRetryNext)
-  // yield takeLatest('RETRY_DONE', onRetryDone)
+  yield takeLatest('ONLINE', onConnectionRestored)
+  yield takeLatest('RETRY_NEXT', onRetryNext)
+  yield takeLatest('RETRY_DONE', onRetryDone)
+
+  while (true) {
+    const online = yield take(connectivityChannel)
+    yield put({ type: online ? 'ONLINE' : 'OFFLINE' })
+  }
 }
 
 export default rootSaga;

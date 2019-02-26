@@ -9,18 +9,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Allow installing the app to the homescreen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <!-- Add Styles -->
-  <!-- <link rel="stylesheet" href="./styles/custom.css"> -->
-  <!-- Add font-awesome -->
-  <!-- <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"> -->
   <!-- Add favicon -->
   <link rel="icon" href="/favicon.ico" />
+  <!-- Apple Icon -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Apple Splash Pages -->
+  <link href="splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+  <link href="splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
   <title>College Messaging</title>
 
-<link rel="manifest" href="manifest.c43b531cc107581ae80b081a0574641f.json" crossorigin="use-credentials" /><link href="main.css" rel="stylesheet"></head>
+<link rel="manifest" href="manifest.23bd39032cad8c1a8248a31a3e61dac2.json" crossorigin="use-credentials" /><link href="main.css" rel="stylesheet"></head>
 
-<body>
+<body ontouchstart="">
   <!-- Display a message if JS has been disabled on the browser. -->
   <noscript>If you're seeing this message, that means
     <strong>JavaScript has been disabled on your browser</strong>, please

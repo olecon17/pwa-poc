@@ -1,9 +1,8 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  // .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
@@ -58,7 +57,7 @@ module.exports = {
         use: ['file-loader'],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|webm)$/,
         use: ['file-loader'],
       },
       {
@@ -70,11 +69,19 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: './node_modules/@fortawesome/fontawesome-free/webfonts',
+        from: './node_modules/@fortawesome/fontawesome-free/webfonts/900',
         to: './webfonts',
       },
+      {
+        from: './splashscreens',
+        to: './splashscreens',
+      },
+      {
+        from: './apple-touch-icon.png',
+        to: './'
+      }
     ]),
-    // new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
@@ -90,14 +97,9 @@ module.exports = {
       description: 'My awesome Progressive Web App!',
       background_color: '#ffb73c',
       crossorigin: 'use-credentials',
+      gcm_sender_id: '905469712471',
       // ios: true,
       icons: [
-        {
-          src: path.resolve('src/images/icon-512x512.png'),
-          sizes: [120, 152, 167, 180, 1024],
-          destination: path.join('icons', 'ios'),
-          ios: true,
-        },
         {
           src: path.resolve('src/images/icon-512x512.png'),
           size: 1024,
@@ -112,7 +114,7 @@ module.exports = {
       ],
     }),
 
-    // new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new MiniCssExtractPlugin(),
   ],
 };

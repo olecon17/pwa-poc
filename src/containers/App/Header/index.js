@@ -8,7 +8,7 @@ const Header = props => (
         <HamburgerButton click={props.clickHamburger} />
       </div>
       <div className="header__logo">
-        <a href="/">LOGO HERE</a>
+        <a href="http://www.cappex.com">LOGO HERE</a>
       </div>
       <div className="spacer" />
       <div className="header_nav_items">
