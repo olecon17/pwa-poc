@@ -156,18 +156,20 @@ const subscribeNotifications = async (registration) => {
 const serviceWorkerMain = async () => {
   checkSupport()
   const swRegistration = await registerServiceWorker()
-  const notificationPermission = await requestNotificationPermission()
   let iosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   console.log('ios: ' + iosDevice)
   if (iosDevice) {
     document.getElementById('add-msg').addEventListener('click', () => {
       navigator.serviceWorker.controller.postMessage('add-msg')
     })
-  } else if (!iosDevice && swRegistration && notificationPermission === 'granted') {
+  } else if (!iosDevice && swRegistration) {
+    const notificationPermission = await requestNotificationPermission()
+    if (notificationPermission === 'granted') {
     console.log('worker installed & permission ok')
     const notifcationSubscription = await subscribeNotifications(swRegistration)
     console.log('notification sub: ' + notifcationSubscription)
     showLocalNotification('Conor', 'is the best', swRegistration)
+    }
   }
 
 
